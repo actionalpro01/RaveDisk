@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -6,6 +6,8 @@ import {
   ImageBackground,
   Image,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  Animated,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 MaterialCommunityIcons.loadFont();
@@ -16,10 +18,36 @@ AntDesign.loadFont();
 import styles from './DetailStyle';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {RateStar} from '@component';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+FontAwesome.loadFont();
+
+const Star = (props) => {
+  return (
+    <View>
+      <FontAwesome
+        name={props.filled === true ? 'star' : 'star-o'}
+        size={23}
+        style={styles.eachStar}
+      />
+    </View>
+  );
+};
 export function DetailScreen() {
   const navigation = useNavigation();
   const route = useRoute();
   const params = route.params.props;
+  const [rating, setRating] = useState(0);
+  let stars = [];
+  for (let x = 1; x <= 5; x++) {
+    stars.push(
+      <TouchableWithoutFeedback key={x} onPress={() => setRating(x)}>
+        <Animated.View>
+          <Star filled={x <= rating ? true : false} />
+        </Animated.View>
+      </TouchableWithoutFeedback>,
+    );
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.Header}>
@@ -83,11 +111,7 @@ export function DetailScreen() {
         </View>
         <View style={styles.BodyBottom}>
           <Text style={styles.TextInfo}>Rate this venue</Text>
-          <Image
-            source={require('./Image/Rate.png')}
-            resizeMode="contain"
-            style={styles.RateBottom}
-          />
+          <View style={styles.listStars}>{stars}</View>
         </View>
       </View>
     </View>

@@ -107,10 +107,13 @@ export default StyleSheet.create({
   BodyBottom: {
     alignItems: 'center',
     justifyContent: 'center',
-
     flex: 1,
   },
-  RateBottom: {
-    paddingTop: h / 13,
+  listStars: {
+    paddingTop: h / 60,
+    flexDirection: 'row',
+  },
+  eachStar: {
+    marginHorizontal: w / 60,
   },
 });

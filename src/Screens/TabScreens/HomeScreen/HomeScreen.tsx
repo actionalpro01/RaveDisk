@@ -49,6 +49,14 @@ export function HomeScreen() {
   }
 
   const Item = (props: ListItemProp) => {
+    const checkLike = (id: string) => {
+      const cloneData = [...data];
+      let itemSelected = cloneData.find((item) => item.id === id);
+      if (itemSelected) {
+        itemSelected.likeByMe = !itemSelected.likeByMe;
+      }
+      setData(cloneData);
+    };
     return (
       <TouchableOpacity
         style={styles.ItemView}
@@ -66,11 +74,18 @@ export function HomeScreen() {
           </View>
           <View style={styles.ItemPartMiddle}>
             <View style={styles.ListIconMiddle}>
-              {props.likeByMe ? (
-                <AntDesign name="heart" size={27} style={{color: '#EB434B'}} />
-              ) : (
-                <AntDesign name="hearto" size={27} />
-              )}
+              <TouchableOpacity onPress={() => checkLike(props.id)}>
+                {props.likeByMe ? (
+                  <AntDesign
+                    name="heart"
+                    size={27}
+                    style={{color: '#EB434B'}}
+                  />
+                ) : (
+                  <AntDesign name="hearto" size={27} />
+                )}
+              </TouchableOpacity>
+
               <Fontisto name="comment" size={22} />
               <AntDesign name="flag" size={27} />
             </View>
